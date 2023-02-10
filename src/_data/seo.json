@@ -1,9 +1,9 @@
 {
-  "title": "APIs.guru",
+  "title": "MobiDataLab",
   "description": "APIs.guru - Wikipedia for Web APIs.",
   "url": "https://apis.guru",
-  "author": "APIs.guru",
-  "twitter": "APIs_guru",
+  "author": "MobiDataLab",
+  "twitter": "MobiDataLab",
   "image": "/assets/images/logo.svg",
   "options": {
     "imageWithBaseUrl": true

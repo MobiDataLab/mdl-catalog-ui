@@ -4,7 +4,7 @@
   "url": "https://apis.guru",
   "author": "MobiDataLab",
   "twitter": "MobiDataLab",
-  "image": "/assets/images/logo.svg",
+  "image": "https://mobidatalab.eu/wp-content/uploads/2021/06/logo.svg",
   "options": {
     "imageWithBaseUrl": true
   }

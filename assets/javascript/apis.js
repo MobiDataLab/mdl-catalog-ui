@@ -189,7 +189,7 @@ if (window.$) {
 
     $.ajax({
       type: "GET",
-      url: "/assets/v2/list.json", // (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/list.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/list.json"),
+      url: (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/list.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/list.json"),
       dataType: 'json',
       cache: true,
       success: function (data) {

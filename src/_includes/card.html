@@ -26,7 +26,7 @@
             <li><a href="{{=it.api.swaggerUrl}}" target="_blank" >JSON</a></li>
             <li><a href='{{=it.api.swaggerYamlUrl}}' target="_blank" >YAML</a></li>
             <li><a href="{{=it.origUrl}}" target='_blank'>Orig</a></li>
-            <li><a href='https://redocly.github.io/redoc/?url={{=it.api.swaggerUrl}}' target="_blank" >Docs</a></li>
+            <li><a href='https://redocly.github.io/redoc/?url={{=it.api.swaggerUrl}}&nocors' target="_blank" >Docs</a></li>
           </ul>
           {{? it.versions }}
           <details>
@@ -38,7 +38,7 @@
                 <ul>
                   <li><a href="{{=version.swaggerUrl}}" target="_blank" >JSON</a></li>
                   <li><a href="{{=version.swaggerYamlUrl}}" target='_blank'>YAML</a></li>
-                  <li><a href='https://redocly.github.io/redoc/?url={{=version.swaggerUrl}}' target="_blank" >Docs</a></li>
+                  <li><a href='https://redocly.github.io/redoc/?url={{=version.swaggerUrl}}&nocors' target="_blank" >Docs</a></li>
                 </ul>
               </li>
               {{~}}

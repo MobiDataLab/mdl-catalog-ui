@@ -111,7 +111,7 @@ CardModel.prototype.fromAPIs = function(apis) {
         this.flashTitle = this.updated.toLocaleString();
     }
     if (this.api.info['x-tags'] && this.api.info['x-tags'].indexOf('helpWanted')>=0) {
-        const link = (this.api.info['x-issues']||['https://github.com/APIs-guru/openapi-directory/issues'])[0];
+        const link = (this.api.info['x-issues']||['https://github.com/mobidatalab/mdl-catalog-api/issues'])[0];
         this.classes = 'flash flash-red';
         this.flashText = `<a href="${link}" target="_blank">Help Wanted</a>`;
         this.flashTitle = this.updated.toLocaleString();
@@ -189,7 +189,7 @@ if (window.$) {
 
     $.ajax({
       type: "GET",
-      url: (newData ? "https://raw.githubusercontent.com/APIs-guru/openapi-directory/gh-pages/v2/list.json" : "https://api.apis.guru/v2/list.json"),
+      url: (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/list.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/list.json"),
       dataType: 'json',
       cache: true,
       success: function (data) {

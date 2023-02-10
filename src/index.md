@@ -6,11 +6,11 @@ permalink: /
 order: 10
 support: true
 ---
-<a href="/projects" class="banner about-banner">
+<!-- <a href="/projects" class="banner about-banner">
    Check out our other open-source projects
-</a>
+</a> -->
 <div class="browse-apis container">
-  {% include support.html %}
+  {% include support-mobidatalab.html %}
   <!-- search -->
   <div id="search" class="row">
     <div class="field col-md-6 col-md-offset-3">
@@ -34,7 +34,7 @@ support: true
     if (window.location.href.indexOf('nd=')>=0) newData = true;
     $.ajax({
       type: "GET",
-      url: (newData ? "https://raw.githubusercontent.com/APIs-guru/openapi-directory/gh-pages/v2/metrics.json" : "https://api.apis.guru/v2/metrics.json"),
+      url: (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/metrics.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/metrics.json"),
       dataType: 'json',
       cache: true,
       success: function (data) {

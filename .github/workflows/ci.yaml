@@ -26,4 +26,4 @@ jobs:
     - name: Run sass
       run: npm run sass
     - name: Run build
-      run: npm run build
+      run: npm run build -- --pathprefix=/mdl-catalog-ui/

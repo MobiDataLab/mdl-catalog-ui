@@ -1,4 +1,4 @@
-# APIs.guru website
+# MobiDataLab Catalog Website
 
 ## Building
 
@@ -10,4 +10,4 @@
 ## Deploying
 
 * GitHub action to deploy to `gh-pages` branch
-* Output: https://apis.guru/
+* Output: https://mobidatalab.github.io/mdl-catalog-ui/

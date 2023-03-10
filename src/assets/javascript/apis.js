@@ -208,7 +208,7 @@ if (window.$) {
             $('#apis-list').empty();
 
             let search = $('#search-input').val().toLowerCase();
-            history.replaceState(null, '', '/' + (search ? '?q='+encodeURIComponent(search) : ''));
+            history.replaceState(null, '', new URL(search ? '?q='+encodeURIComponent(search) : '', window.location.href).toString());
             if (search) {
               $('#btnCopy').show();
             }

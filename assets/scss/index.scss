@@ -320,3 +320,82 @@ section.activities {
     }
   }
 }
+
+// category drop down
+.checkbox-dropdown {
+  width: 300px;
+  border: 1px solid #aaa;
+  padding: 10px;
+  position: relative;
+  margin: 0 auto;
+  user-select: none;
+  // display: block;
+
+  .control {
+    width: 100%;
+  }
+}
+
+/* Display CSS arrow to the right of the dropdown text */
+.checkbox-dropdown:after {
+  content:'';
+  height: 0;
+  position: absolute;
+  width: 0;
+  border: 6px solid transparent;
+  border-top-color: #000;
+  top: 50%;
+  right: 10px;
+  margin-top: -3px;
+}
+
+/* Reverse the CSS arrow when the dropdown is active */
+.checkbox-dropdown.is-active:after {
+  border-bottom-color: #000;
+  border-top-color: #fff;
+  margin-top: -9px;
+}
+
+.checkbox-dropdown-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 100%; /* align the dropdown right below the dropdown text */
+  border: inherit;
+  border-top: none;
+  left: -1px; /* align the dropdown to the left */
+  right: -1px; /* align the dropdown to the right */
+  opacity: 0; /* hide the dropdown */
+  background-color: white;
+
+  transition: opacity 0.4s ease-in-out;
+  height: 400px;
+  overflow: scroll;
+  overflow-x: hidden;
+  pointer-events: none; /* avoid mouse click events inside the dropdown */
+}
+.is-active .checkbox-dropdown-list {
+  opacity: 1; /* display the dropdown */
+  pointer-events: auto; /* make sure that the user still can select checkboxes */
+  z-index: 100;
+  // position: relative;
+}
+
+.checkbox-dropdown-list li label {
+  display: block;
+  border-bottom: 1px solid silver;
+  padding: 10px;
+  transition: all 0.2s ease-out;
+  &:hover {
+    background-color: #555;
+    color: white;
+  }
+  &.is-selected {
+    background-color: #388c9a;
+    color: white;
+  }
+  input { 
+    display: none
+  }
+}

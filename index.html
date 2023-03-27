@@ -123,15 +123,133 @@
    -->
 </section>
   <!-- search -->
-  <div id="search" class="row">
-    <div class="field col-md-6 col-md-offset-3">
-      <label for="search">Filter <span id="numAPIs"></span> APIs&nbsp;
-        <span id="btnCopy" class="hidden"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height:1em;width:1em;"><title>Copy search link to clipboard</title><path d="M18 6v-6h-18v18h6v6h18v-18h-6zm-12 10h-4v-14h14v4h-10v10zm16 6h-14v-14h14v14z"></path></svg></span>
-      </label>
-      <input id="search-input" name="search" type="search" placeholder="Search…" required/>
+  <div>
+    <div id="search" class="row">
+      <div class="field col-md-6 col-md-offset-3">
+        <label for="search">Filter <span id="numAPIs"></span> APIs&nbsp;
+          <span id="btnCopy" class="hidden"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height:1em;width:1em;"><title>Copy search link to clipboard</title><path d="M18 6v-6h-18v18h6v6h18v-18h-6zm-12 10h-4v-14h14v4h-10v10zm16 6h-14v-14h14v14z"></path></svg></span>
+        </label>
+        <input id="search-input" name="search" type="search" placeholder="Search…" required/>
+        <div>
+    <div class="filter">
+        <label for="category" class="">Category</label>
+        <div class="checkbox-dropdown">
+            <span id="selected-categories-text">Select one or more categories</span>
+            <ul class="checkbox-dropdown-list">
+            <li>
+                <label id="label-cat-analytics">
+                    <input type="checkbox" value="analytics" name="category" />Analytics</label>
+            </li><li>
+                <label id="label-cat-backend">
+                    <input type="checkbox" value="backend" name="category" />Backend</label>
+            </li><li>
+                <label id="label-cat-cloud">
+                    <input type="checkbox" value="cloud" name="category" />Cloud</label>
+            </li><li>
+                <label id="label-cat-collaboration">
+                    <input type="checkbox" value="collaboration" name="category" />Collaboration</label>
+            </li><li>
+                <label id="label-cat-customer_relation">
+                    <input type="checkbox" value="customer_relation" name="category" />Customer Relations</label>
+            </li><li>
+                <label id="label-cat-developer_tools">
+                    <input type="checkbox" value="developer_tools" name="category" />Developer Tools</label>
+            </li><li>
+                <label id="label-cat-ecommerce">
+                    <input type="checkbox" value="ecommerce" name="category" />E-Commerce</label>
+            </li><li>
+                <label id="label-cat-education">
+                    <input type="checkbox" value="education" name="category" />Education</label>
+            </li><li>
+                <label id="label-cat-email">
+                    <input type="checkbox" value="email" name="category" />Email</label>
+            </li><li>
+                <label id="label-cat-enterprise">
+                    <input type="checkbox" value="enterprise" name="category" />Enterprise</label>
+            </li><li>
+                <label id="label-cat-entertainment">
+                    <input type="checkbox" value="entertainment" name="category" />Entertainment</label>
+            </li><li>
+                <label id="label-cat-financial">
+                    <input type="checkbox" value="financial" name="category" />Financial</label>
+            </li><li>
+                <label id="label-cat-forms">
+                    <input type="checkbox" value="forms" name="category" />Forms</label>
+            </li><li>
+                <label id="label-cat-frontend">
+                    <input type="checkbox" value="frontend" name="category" />Frontend</label>
+            </li><li>
+                <label id="label-cat-hosting">
+                    <input type="checkbox" value="hosting" name="category" />Hosting</label>
+            </li><li>
+                <label id="label-cat-iot">
+                    <input type="checkbox" value="iot" name="category" />IoT</label>
+            </li><li>
+                <label id="label-cat-location">
+                    <input type="checkbox" value="location" name="category" />Location</label>
+            </li><li>
+                <label id="label-cat-machine_learning">
+                    <input type="checkbox" value="machine_learning" name="category" />Machine Learning</label>
+            </li><li>
+                <label id="label-cat-marketing">
+                    <input type="checkbox" value="marketing" name="category" />Marketing</label>
+            </li><li>
+                <label id="label-cat-media">
+                    <input type="checkbox" value="media" name="category" />Media</label>
+            </li><li>
+                <label id="label-cat-messaging">
+                    <input type="checkbox" value="messaging" name="category" />Messaging</label>
+            </li><li>
+                <label id="label-cat-monitoring">
+                    <input type="checkbox" value="monitoring" name="category" />Monitoring</label>
+            </li><li>
+                <label id="label-cat-open_data">
+                    <input type="checkbox" value="open_data" name="category" />Open Data</label>
+            </li><li>
+                <label id="label-cat-payment">
+                    <input type="checkbox" value="payment" name="category" />Payment</label>
+            </li><li>
+                <label id="label-cat-project_management">
+                    <input type="checkbox" value="project_management" name="category" />Project Management</label>
+            </li><li>
+                <label id="label-cat-search">
+                    <input type="checkbox" value="search" name="category" />Search</label>
+            </li><li>
+                <label id="label-cat-security">
+                    <input type="checkbox" value="security" name="category" />Security</label>
+            </li><li>
+                <label id="label-cat-social">
+                    <input type="checkbox" value="social" name="category" />Social</label>
+            </li><li>
+                <label id="label-cat-storage">
+                    <input type="checkbox" value="storage" name="category" />Storage</label>
+            </li><li>
+                <label id="label-cat-support">
+                    <input type="checkbox" value="support" name="category" />Support</label>
+            </li><li>
+                <label id="label-cat-telecom">
+                    <input type="checkbox" value="telecom" name="category" />Telecoms</label>
+            </li><li>
+                <label id="label-cat-text">
+                    <input type="checkbox" value="text" name="category" />Text</label>
+            </li><li>
+                <label id="label-cat-time_management">
+                    <input type="checkbox" value="time_management" name="category" />Time Management</label>
+            </li><li>
+                <label id="label-cat-tools">
+                    <input type="checkbox" value="tools" name="category" />Tools</label>
+            </li><li>
+                <label id="label-cat-transport">
+                    <input type="checkbox" value="transport" name="category" />Transport</label>
+            </li>
+            </ul>
+        </div>
     </div>
+</div>
+</div>
+    </div>
+    <input class="hidden" id="txtCopy"/>
   </div>
-  <input class="hidden" id="txtCopy"/>
   <section id="apis-list" class="cards"></section>
 </div>
 <script type="text/dot-template">
@@ -196,6 +314,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
   $(document).ready(function(){
+    $(".checkbox-dropdown").click(function () {
+        $(this).toggleClass("is-active");
+    });
+    $(document).click(function(event) { 
+      var $target = $(event.target);
+      if(!$target.closest('.checkbox-dropdown').length && 
+      $('.checkbox-dropdown').is(":visible")) {
+        $('.checkbox-dropdown').removeClass("is-active");
+      }        
+    });
+    $(".checkbox-dropdown-list ul").click(function(e) {
+        e.stopPropagation();
+    });
+    $(".checkbox-dropdown-list li").click(function(e) {
+        if (e.target.tagName === "LABEL") {
+          $(e.target).toggleClass("is-selected");
+        }
+    });
     var newData = false;
     if (window.location.href.indexOf('nd=')>=0) newData = true;
     $.ajax({

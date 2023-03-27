@@ -23,6 +23,7 @@ const integrations = [
 
 const monthAgo = new Date(new Date().setDate(new Date().getDate()-30));
 let category = '';
+let categories = [];
 let tag = '';
 let status = '';
 let newData = false;
@@ -144,8 +145,8 @@ if (window.$) {
         $('#apis-list').append(fragment);
     };
 
-    var filter = function(data, search, category, tag, status) {
-        if (!(search || category || tag || status)) return data;
+    var filter = function(data, search, categories, tag, status) {
+        if (!(search || categories.length || tag || status)) return data;
         var result = {};
         $.each(data, function (name, apis) {
             if (search && name.toLowerCase().indexOf(search) >= 0) {
@@ -159,7 +160,7 @@ if (window.$) {
                 if (status === 'new' && new Date(version.added) >= monthAgo) {
                     result[name] = apis;
                 }
-                if (category && (version.info['x-apisguru-categories']||[]).indexOf(category)>=0) {
+                if (categories.length && (version.info['x-apisguru-categories']||[]).some(cat => categories.indexOf(cat) > -1)) {
                     result[name] = apis;
                 }
                 if (tag && (version.info['x-tags']||[]).indexOf(tag)>=0) {
@@ -170,12 +171,55 @@ if (window.$) {
         return result;
     };
 
+    var onlyUnique = function(value, index, self) {
+      return self.indexOf(value) === index;
+    };
+    var refreshSelectedCategories = function(categories) {
+      $(`.checkbox-dropdown-list label`).removeClass("is-selected");
+      categories = categories.map(cat => {
+        let selected = $(`.checkbox-dropdown-list #label-cat-${cat}`);
+        selected.addClass("is-selected");
+        return selected.text().trim();
+      });
+      $(".checkbox-dropdown #selected-categories-text").text(
+          categories.length
+              ? `${categories.length} selected: ${categories.join(", ")}`
+              : "Select one or more categories"
+      );
+    };
+
+    var refreshData = function(data) {
+        $('#apis-list').empty();
+
+        let search = $('#search-input').val().toLowerCase();
+        if (search) {
+          $('#btnCopy').show();
+        }
+        else {
+          $('#btnCopy').hide();
+        }
+
+        let categories = $('.checkbox-dropdown-list .is-selected input').toArray().map(el => el.value);
+        refreshSelectedCategories(categories);
+
+        let searchParams = new URLSearchParams([
+          ["q", search ? encodeURIComponent(search) : ''],
+          ["category", categories.length ? categories.join(",") : '']
+        ]);
+        history.replaceState(null, '', new URL(`?${searchParams}`, window.location.href).toString());
+
+        let result = filter(data, search, categories, tag, status);
+        updateCards(result);
+    };
+
     let urlParams = new URLSearchParams(location.search);
     if (urlParams.get('q')) {
         $('#search-input').val(urlParams.get('q'));
     }
     if (urlParams.get('category')) {
-       category = urlParams.get('category').toLowerCase();
+        category = decodeURIComponent(urlParams.get('category')).toLowerCase();
+        categories = category.split(",").map(s=>s.trim()).filter(onlyUnique);
+        refreshSelectedCategories(categories);
     }
     if (urlParams.get('tag')) {
        tag = urlParams.get('tag');
@@ -195,8 +239,8 @@ if (window.$) {
       success: function (data) {
         $('#apis-list').empty();
         let search = $('#search-input').val().toLowerCase();
-        if (search || category || tag || status) {
-            let result = filter(data, search, category, tag, status);
+        if (search || categories || tag || status) {
+            let result = filter(data, search, categories, tag, status);
             updateCards(result);
         }
         else {
@@ -205,19 +249,20 @@ if (window.$) {
 
         var searchInput = $('#search-input')[0];
         searchInput.addEventListener('keyup', debounce(function() {
-            $('#apis-list').empty();
-
-            let search = $('#search-input').val().toLowerCase();
-            history.replaceState(null, '', new URL(search ? '?q='+encodeURIComponent(search) : '', window.location.href).toString());
-            if (search) {
-              $('#btnCopy').show();
-            }
-            else {
-              $('#btnCopy').hide();
-            }
-            let result = filter(data, search, category, tag, status);
-            updateCards(result);
+          refreshData(data);
         }, 333), false);
+
+        let categoriesInput = $('.checkbox-dropdown')[0];
+        let categoriesMutationObserver = new MutationObserver(debounce(function(mutation) {
+          // drop down is active, do nothing
+          if (mutation[0].target.className.indexOf("is-active") > -1) {
+            return;
+          }
+          refreshData(data);
+        }, 333), false);
+        categoriesMutationObserver.observe(categoriesInput, {
+          attributes: true
+        });
       }
     });
 

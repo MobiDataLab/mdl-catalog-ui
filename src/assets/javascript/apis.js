@@ -198,13 +198,13 @@ if (window.$) {
         else {
           $('#btnCopy').hide();
         }
-        
+
         let categories = $('.checkbox-dropdown-list .is-selected input').toArray().map(el => el.value);
         refreshSelectedCategories(categories);
 
         let searchParams = new URLSearchParams([
           ["q", search ? encodeURIComponent(search) : ''],
-          ["category", categories.length ? categories.join(",") : ''],
+          ["category", categories.length ? categories.join(",") : '']
         ]);
         history.replaceState(null, '', new URL(`?${searchParams}`, window.location.href).toString());
 
@@ -251,7 +251,7 @@ if (window.$) {
         searchInput.addEventListener('keyup', debounce(function() {
           refreshData(data);
         }, 333), false);
-        
+
         let categoriesInput = $('.checkbox-dropdown')[0];
         let categoriesMutationObserver = new MutationObserver(debounce(function(mutation) {
           // drop down is active, do nothing

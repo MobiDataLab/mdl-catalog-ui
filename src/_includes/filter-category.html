@@ -1,0 +1,14 @@
+<div>
+    <div class="filter">
+        <label for="{{ form-data.category.name }}" class="">{{ form-data.category.label }}</label>
+        <div class="checkbox-dropdown">
+            <span id="selected-categories-text">Select one or more categories</span>
+            <ul class="checkbox-dropdown-list">
+            {% for category in form-data.category.categories %}<li>
+                <label id="label-cat-{{ category.value }}">
+                    <input type="checkbox" value="{{ category.value }}" name="{{ form-data.category.name }}" />{{ category.name }}</label>
+            </li>{% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

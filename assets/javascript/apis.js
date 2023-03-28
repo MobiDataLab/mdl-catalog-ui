@@ -149,18 +149,21 @@ if (window.$) {
         if (!(search || categories.length || tag || status)) return data;
         var result = {};
         $.each(data, function (name, apis) {
+            const version = apis.versions[apis.preferred];
+            if (categories.length && !(version.info['x-apisguru-categories']||[]).some(cat => categories.indexOf(cat) > -1)) {
+                return;
+            }
             if (search && name.toLowerCase().indexOf(search) >= 0) {
                 result[name] = apis;
             }
             else {
-                const version = apis.versions[apis.preferred];
                 if (status === 'updated' && new Date(version.updated) >= monthAgo) {
                     result[name] = apis;
                 }
                 if (status === 'new' && new Date(version.added) >= monthAgo) {
                     result[name] = apis;
                 }
-                if (categories.length && (version.info['x-apisguru-categories']||[]).some(cat => categories.indexOf(cat) > -1)) {
+                if (category && (version.info['x-apisguru-categories']||[]).indexOf(category)>=0) {
                     result[name] = apis;
                 }
                 if (tag && (version.info['x-tags']||[]).indexOf(tag)>=0) {

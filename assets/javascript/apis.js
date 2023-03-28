@@ -156,8 +156,7 @@ if (window.$) {
             if (
                 search &&
                 !search
-                    .split(" ")
-                    .map((s) => s.trim())
+                    .match(/\w+/g)
                     .some((s) => name.toLowerCase().indexOf(s) > -1)
             ) {
                 return;

@@ -153,23 +153,34 @@ if (window.$) {
             if (categories.length && !(version.info['x-apisguru-categories']||[]).some(cat => categories.indexOf(cat) > -1)) {
                 return;
             }
-            if (search && name.toLowerCase().indexOf(search) >= 0) {
-                result[name] = apis;
+            if (
+                search &&
+                !search
+                    .split(" ")
+                    .map((s) => s.trim())
+                    .some((s) => name.toLowerCase().indexOf(s) > -1)
+            ) {
+                return;
             }
-            else {
-                if (status === 'updated' && new Date(version.updated) >= monthAgo) {
-                    result[name] = apis;
-                }
-                if (status === 'new' && new Date(version.added) >= monthAgo) {
-                    result[name] = apis;
-                }
-                if (category && (version.info['x-apisguru-categories']||[]).indexOf(category)>=0) {
-                    result[name] = apis;
-                }
-                if (tag && (version.info['x-tags']||[]).indexOf(tag)>=0) {
-                    result[name] = apis;
-                }
-            }
+            result[name] = apis;
+            // // old logic
+            // if (search && name.toLowerCase().indexOf(search) >= 0) {
+            //     result[name] = apis;
+            // }
+            // else {
+            //     if (status === 'updated' && new Date(version.updated) >= monthAgo) {
+            //         result[name] = apis;
+            //     }
+            //     if (status === 'new' && new Date(version.added) >= monthAgo) {
+            //         result[name] = apis;
+            //     }
+            //     if (category && (version.info['x-apisguru-categories']||[]).indexOf(category)>=0) {
+            //         result[name] = apis;
+            //     }
+            //     if (tag && (version.info['x-tags']||[]).indexOf(tag)>=0) {
+            //         result[name] = apis;
+            //     }
+            // }
         });
         return result;
     };
@@ -194,7 +205,7 @@ if (window.$) {
     var refreshData = function(data) {
         $('#apis-list').empty();
 
-        let search = $('#search-input').val().toLowerCase();
+        let search = decodeURIComponent($('#search-input').val()).toLowerCase();
         if (search) {
           $('#btnCopy').show();
         }
@@ -217,11 +228,10 @@ if (window.$) {
 
     let urlParams = new URLSearchParams(location.search);
     if (urlParams.get('q')) {
-        $('#search-input').val(urlParams.get('q'));
+        $('#search-input').val(decodeURIComponent(urlParams.get('q')));
     }
     if (urlParams.get('category')) {
-        category = decodeURIComponent(urlParams.get('category')).toLowerCase();
-        categories = category.split(",").map(s=>s.trim()).filter(onlyUnique);
+        categories = decodeURIComponent(urlParams.get('category')).toLowerCase().split(",").map(s=>s.trim()).filter(onlyUnique);
         refreshSelectedCategories(categories);
     }
     if (urlParams.get('tag')) {
@@ -241,7 +251,7 @@ if (window.$) {
       cache: true,
       success: function (data) {
         $('#apis-list').empty();
-        let search = $('#search-input').val().toLowerCase();
+        let search = decodeURIComponent($('#search-input').val()).toLowerCase();
         if (search || categories || tag || status) {
             let result = filter(data, search, categories, tag, status);
             updateCards(result);

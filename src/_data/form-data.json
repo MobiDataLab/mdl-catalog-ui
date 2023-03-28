@@ -216,6 +216,68 @@
             "name": "Transport",
             "value": "transport"
         }
+        ],
+        "categories_location": [
+        {
+            "name": "Geocoding",
+            "value": "geocoding"
+        },
+        {
+            "name": "Geofencing",
+            "value": "geofencing"
+        },
+        {
+            "name": "Location",
+            "value": "location"
+        },
+        {
+            "name": "Maps",
+            "value": "maps"
+        },
+        {
+            "name": "Navigation",
+            "value": "navigation"
+        },
+        {
+            "name": "Open Data",
+            "value": "open_data"
+        },
+        {
+            "name": "POI",
+            "value": "poi"
+        },
+        {
+            "name": "Positioning",
+            "value": "positioning"
+        },
+        {
+            "name": "Raster Tiles",
+            "value": "raster_tiles"
+        },
+        {
+            "name": "Route Matching",
+            "value": "route_matching"
+        },
+        {
+            "name": "Routing",
+            "value": "routing"
+        },
+        {
+            "name": "Satellite",
+            "value": "satellite"
+        },
+        {
+            "name": "Tracking",
+            "value": "tracking"
+        },
+        {
+            "name": "Transport",
+            "value": "transport"
+        },
+        {
+            "name": "Vector Tiles",
+            "value": "vector_tiles"
+        }
         ]
     }
 }

@@ -267,6 +267,10 @@
             "value": "satellite"
         },
         {
+            "name": "Semantic",
+            "value": "semantic"
+        },
+        {
             "name": "Tracking",
             "value": "tracking"
         },

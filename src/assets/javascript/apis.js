@@ -147,9 +147,23 @@ if (window.$) {
     };
 
     var filter = function(data, search, categories, tag, status) {
-        if (!(search || categories.length || tag || status)) return data;
+        var data1 = {};
+        var checkboxOnlyOpenApi = $('#checkbox-only-open-api')[0];
+        if (checkboxOnlyOpenApi.checked) {
+          $.each(data, function (name, apis) {
+            const version = apis.versions[apis.preferred];
+            if (!version.swaggerUrl) return;
+            data1[name] = apis;
+          });
+        }
+        else {
+          data1 = data;
+        }
+
+
+        if (!(search || categories.length || tag || status)) return data1;
         var result = {};
-        $.each(data, function (name, apis) {
+        $.each(data1, function (name, apis) {
             const version = apis.versions[apis.preferred];
             if (categories.length && !(version.info['x-apisguru-categories']||[]).some(cat => categories.indexOf(cat) > -1)) {
                 return;
@@ -247,28 +261,28 @@ if (window.$) {
     function getLoadedData(){
       return loadedData;
     }
-    
+
     async function setLoadedData(data){
       $.extend(true, getLoadedData(), data);
       // console.log(data);
       console.log(loadedData);
       return loadedData;
     }
-    
+
     $.ajax({
       type: "GET",
       url: (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/list.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/list.json"),
       dataType: 'json',
       cache: true,
       success: async function (data) {
-        
+
         await setLoadedData(data);
         updateData();
       }
     });
 
     for (let i=0;i<15;i++) { updateCards(dummy); }
-    
+
     function updateData() {
       $('#apis-list').empty();
       let search = decodeURIComponent($('#search-input').val()).toLowerCase();
@@ -284,6 +298,12 @@ if (window.$) {
     function setupObserver() {
       var searchInput = $('#search-input')[0];
       searchInput.addEventListener('keyup', debounce(function() {
+        refreshData(getLoadedData());
+      }, 333), false);
+
+      var checkboxOnlyOpenApi = $('#checkbox-only-open-api')[0];
+
+      checkboxOnlyOpenApi.addEventListener('click', debounce(function() {
         refreshData(getLoadedData());
       }, 333), false);
 

@@ -133,6 +133,7 @@ if (window.$) {
   $(document).ready(function () {
     var cardTemplateSrc = document.querySelector('script[type="text/dot-template"]').innerText;
     var cardTemplate = window.doT.compile(cardTemplateSrc);
+    const loadedData = {};
 
     var updateCards = function(data) {
         var fragment = $(document.createDocumentFragment());
@@ -243,42 +244,63 @@ if (window.$) {
        newData = true;
     }
 
+    function getLoadedData(){
+      return loadedData;
+    }
+    
+    async function setLoadedData(data){
+      $.extend(true, getLoadedData(), data);
+      // console.log(data);
+      console.log(loadedData);
+      return loadedData;
+    }
+    
     $.ajax({
       type: "GET",
       url: (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/list.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/list.json"),
       dataType: 'json',
       cache: true,
-      success: function (data) {
-        $('#apis-list').empty();
-        let search = decodeURIComponent($('#search-input').val()).toLowerCase();
-        if (search || categories || tag || status) {
-            let result = filter(data, search, categories, tag, status);
-            updateCards(result);
-        }
-        else {
-            updateCards(data);
-        }
-
-        var searchInput = $('#search-input')[0];
-        searchInput.addEventListener('keyup', debounce(function() {
-          refreshData(data);
-        }, 333), false);
-
-        let categoriesInput = $('.checkbox-dropdown')[0];
-        let categoriesMutationObserver = new MutationObserver(debounce(function(mutation) {
-          // drop down is active, do nothing
-          if (mutation[0].target.className.indexOf("is-active") > -1) {
-            return;
-          }
-          refreshData(data);
-        }, 333), false);
-        categoriesMutationObserver.observe(categoriesInput, {
-          attributes: true
-        });
+      success: async function (data) {
+        
+        await setLoadedData(data);
+        updateData();
       }
     });
 
     for (let i=0;i<15;i++) { updateCards(dummy); }
+    
+    function updateData() {
+      $('#apis-list').empty();
+      let search = decodeURIComponent($('#search-input').val()).toLowerCase();
+      if (search || categories || tag || status) {
+          let result = filter(getLoadedData(), search, categories, tag, status);
+          updateCards(result);
+      }
+      else {
+          updateCards(getLoadedData());
+      }
+    }
+
+    function setupObserver() {
+      var searchInput = $('#search-input')[0];
+      searchInput.addEventListener('keyup', debounce(function() {
+        refreshData(getLoadedData());
+      }, 333), false);
+
+      let categoriesInput = $('.checkbox-dropdown')[0];
+      let categoriesMutationObserver = new MutationObserver(debounce(function(mutation) {
+        // drop down is active, do nothing
+        if (mutation[0].target.className.indexOf("is-active") > -1) {
+          return;
+        }
+        refreshData(getLoadedData());
+      }, 333), false);
+      categoriesMutationObserver.observe(categoriesInput, {
+        attributes: true
+      });
+    }
+
+    setupObserver();
 
     $('#btnCopy').on('click',function(){
         $('#txtCopy').show();

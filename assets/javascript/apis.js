@@ -133,6 +133,7 @@ if (window.$) {
   $(document).ready(function () {
     var cardTemplateSrc = document.querySelector('script[type="text/dot-template"]').innerText;
     var cardTemplate = window.doT.compile(cardTemplateSrc);
+    const loadedData = {};
 
     var updateCards = function(data) {
         var fragment = $(document.createDocumentFragment());
@@ -146,9 +147,23 @@ if (window.$) {
     };
 
     var filter = function(data, search, categories, tag, status) {
-        if (!(search || categories.length || tag || status)) return data;
+        var data1 = {};
+        var checkboxOnlyOpenApi = $('#checkbox-only-open-api')[0];
+        if (checkboxOnlyOpenApi.checked) {
+          $.each(data, function (name, apis) {
+            const version = apis.versions[apis.preferred];
+            if (!version.swaggerUrl) return;
+            data1[name] = apis;
+          });
+        }
+        else {
+          data1 = data;
+        }
+
+
+        if (!(search || categories.length || tag || status)) return data1;
         var result = {};
-        $.each(data, function (name, apis) {
+        $.each(data1, function (name, apis) {
             const version = apis.versions[apis.preferred];
             if (categories.length && !(version.info['x-apisguru-categories']||[]).some(cat => categories.indexOf(cat) > -1)) {
                 return;
@@ -243,42 +258,69 @@ if (window.$) {
        newData = true;
     }
 
+    function getLoadedData(){
+      return loadedData;
+    }
+
+    async function setLoadedData(data){
+      $.extend(true, getLoadedData(), data);
+      // console.log(data);
+      console.log(loadedData);
+      return loadedData;
+    }
+
     $.ajax({
       type: "GET",
       url: (newData ? "https://raw.githubusercontent.com/mobidatalab/mdl-catalog-api/gh-pages/v2/list.json" : "https://mobidatalab.github.io/mdl-catalog-api/v2/list.json"),
       dataType: 'json',
       cache: true,
-      success: function (data) {
-        $('#apis-list').empty();
-        let search = decodeURIComponent($('#search-input').val()).toLowerCase();
-        if (search || categories || tag || status) {
-            let result = filter(data, search, categories, tag, status);
-            updateCards(result);
-        }
-        else {
-            updateCards(data);
-        }
+      success: async function (data) {
 
-        var searchInput = $('#search-input')[0];
-        searchInput.addEventListener('keyup', debounce(function() {
-          refreshData(data);
-        }, 333), false);
-
-        let categoriesInput = $('.checkbox-dropdown')[0];
-        let categoriesMutationObserver = new MutationObserver(debounce(function(mutation) {
-          // drop down is active, do nothing
-          if (mutation[0].target.className.indexOf("is-active") > -1) {
-            return;
-          }
-          refreshData(data);
-        }, 333), false);
-        categoriesMutationObserver.observe(categoriesInput, {
-          attributes: true
-        });
+        await setLoadedData(data);
+        updateData();
       }
     });
 
     for (let i=0;i<15;i++) { updateCards(dummy); }
+
+    function updateData() {
+      $('#apis-list').empty();
+      let search = decodeURIComponent($('#search-input').val()).toLowerCase();
+      if (search || categories || tag || status) {
+          let result = filter(getLoadedData(), search, categories, tag, status);
+          updateCards(result);
+      }
+      else {
+          updateCards(getLoadedData());
+      }
+    }
+
+    function setupObserver() {
+      var searchInput = $('#search-input')[0];
+      searchInput.addEventListener('keyup', debounce(function() {
+        refreshData(getLoadedData());
+      }, 333), false);
+
+      var checkboxOnlyOpenApi = $('#checkbox-only-open-api')[0];
+
+      checkboxOnlyOpenApi.addEventListener('click', debounce(function() {
+        refreshData(getLoadedData());
+      }, 333), false);
+
+      let categoriesInput = $('.checkbox-dropdown')[0];
+      let categoriesMutationObserver = new MutationObserver(debounce(function(mutation) {
+        // drop down is active, do nothing
+        if (mutation[0].target.className.indexOf("is-active") > -1) {
+          return;
+        }
+        refreshData(getLoadedData());
+      }, 333), false);
+      categoriesMutationObserver.observe(categoriesInput, {
+        attributes: true
+      });
+    }
+
+    setupObserver();
 
     $('#btnCopy').on('click',function(){
         $('#txtCopy').show();

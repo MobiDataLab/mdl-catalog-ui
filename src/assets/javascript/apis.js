@@ -173,7 +173,18 @@ if (window.$) {
                 search &&
                 !search
                     .match(/\w+/g)
-                    .some((s) => name.toLowerCase().indexOf(s) > -1)
+                    .every(
+                        (s) =>
+                            [
+                                name,
+                                version.info.title || "",
+                                version.info.description || "",
+                                version.info["x-apisguru-categories"] || ""
+                            ]
+                                .join(" ")
+                                .toLowerCase()
+                                .indexOf(s) > -1
+                    )
             ) {
                 return;
             }

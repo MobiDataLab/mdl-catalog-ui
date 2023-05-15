@@ -64,6 +64,7 @@ function CardModel() {
     this.cardDescription = '';
     this.added = null;
     this.updated = null;
+    this.noLogoUrl = 'https://mobidatalab.github.io/mdl-catalog-ui/assets/images/no-logo.svg';
 }
 
 CardModel.prototype.fromAPIs = function(apis) {

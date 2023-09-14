@@ -219,6 +219,10 @@
         ],
         "categories_location": [
         {
+            "name": "Anonymization",
+            "value": "anonymization"
+        },
+        {
             "name": "Geocoding",
             "value": "geocoding"
         },

@@ -138,12 +138,17 @@ if (window.$) {
 
     var updateCards = function(data) {
         var fragment = $(document.createDocumentFragment());
+        var priorityList = [];
         $.each(data, function (name, apis) {
             var model = new CardModel().fromAPIs(apis);
             var view = cardTemplate(model);
-            fragment.append($(view));
+            if (name.startsWith("mobidatalab")) {
+              priorityList.push($(view));
+            } else {
+              fragment.append($(view));
+            }
         });
-
+        fragment.prepend(priorityList);
         $('#apis-list').append(fragment);
     };
 
